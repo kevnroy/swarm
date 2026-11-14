@@ -7,7 +7,6 @@
   # name will clash in the tailnet.
   networking.hostName = "laptop";
 
-  # Add laptop-only settings here (e.g. services.printing.drivers for a local
-  # printer, extra kernel modules, a different timezone for travel).
-  # Everything shared with the desktop lives in modules/common.nix.
+  # This machine is a 4 GB i3-7020U, so it inherits only the shared baseline
+  # from modules/common.nix. Add laptop-only packages here if you want them.
 }

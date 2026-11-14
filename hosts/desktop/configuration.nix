@@ -1,5 +1,8 @@
 { pkgs, ... }:
 
+let
+  unstable = pkgs.unstable;
+in
 {
   imports = [
     ./hardware-configuration.nix
@@ -8,6 +11,20 @@
   # Distinct per host: Tailscale keys machines by hostname, so a duplicate
   # name will clash in the tailnet.
   networking.hostName = "nixos";
+
+  # Heavy GUI/media apps: this machine has the RAM and disk for them.
+  environment.systemPackages = with pkgs; [
+    ollama
+    obsidian
+    proton-vpn
+    vscodium
+    ungoogled-chromium
+    localsend
+    qbittorrent
+
+    unstable.zed-editor
+    unstable.t3code
+  ];
 
   # The printer lives at the desk; the laptop doesn't need its driver.
   # epson-202101w only exists in nixpkgs-unstable, not in the 26.05 release,

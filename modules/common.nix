@@ -99,35 +99,28 @@ in
 
   nixpkgs.config.allowUnfree = true;
 
-  # List packages installed in system profile.
+  # Shared baseline: terminal tools, a browser, and the AI coding stack.
+  # Heavy GUI/media apps live in hosts/desktop so the 4 GB laptop stays lean.
   environment.systemPackages = with pkgs; [
     vim
     wget
-    librewolf
+    curl
     btop
     fastfetch
-    curl
-    vscodium
-    obsidian
-    ungoogled-chromium
-    proton-vpn
-    localsend
     kitty
-    qbittorrent
     stow
     nodejs
     python3
+    go
+    tmux
+    tailscale
+    librewolf
+
     claude-code
     pi-coding-agent
     codex
-    tmux
-    ollama
-    go
-    tailscale
 
     unstable.opencode
-    unstable.t3code
-    unstable.zed-editor
     unstable.neovim
   ];
 
