@@ -1,0 +1,12 @@
+# nixos-rebuild / nix build outputs
+result
+result-*
+/gc
+
+# direnv
+.direnv/
+.envrc
+
+# editor / OS noise
+*.swp
+.DS_Store
