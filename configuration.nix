@@ -56,6 +56,10 @@ in # these vars i declared in the let statement, are being used 'in' this attrib
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
+  services.printing.drivers = with pkgs; [
+   epson-202101w
+  ];
+
 
   services.tailscale = {
     # Enable tailscale at startup
@@ -106,6 +110,16 @@ in # these vars i declared in the let statement, are being used 'in' this attrib
    };
   };
 
+  programs.obs-studio = {
+    enable = true;
+    plugins = [ pkgs.obs-studio-plugins.droidcam-obs ];
+    enableVirtualCamera = true;
+  };
+
+   boot.extraModprobeConfig = pkgs.lib.mkForce ''
+    options v4l2loopback devices=1 video_nr=10 card_label="OBS Cam" exclusive_caps=1
+  '';
+
   nixpkgs.config.allowUnfree = true;
 
   # List packages installed in system profile.
@@ -137,6 +151,7 @@ in # these vars i declared in the let statement, are being used 'in' this attrib
      unstable.opencode
      unstable.t3code
      unstable.zed-editor
+     unstable.neovim
    ];
 
    nix.settings.experimental-features = [
