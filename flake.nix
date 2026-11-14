@@ -14,8 +14,10 @@
   outputs = { self, nixpkgs, nixpkgs-unstable, ... }:
     let
       # Every machine shares modules/common.nix and only differs in its
-      # hostname and hardware-configuration.nix (disk UUIDs, CPU vendor).
-      mkHost = hostname: nixpkgs.lib.nixosSystem {
+      # hostname, hardware-configuration.nix and which pinned nixpkgs it uses
+      # as its base. `base` is the rev that machine already runs, so a rebuild
+      # reuses its store instead of re-downloading a closure.
+      mkHost = { hostname, base }: base.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
           ./modules/common.nix
@@ -36,8 +38,10 @@
       };
     in {
       nixosConfigurations = {
-        desktop = mkHost "desktop";
-        laptop = mkHost "laptop";
+        # 26.11pre1106360.0bb2eedc - the desktop's current system.
+        desktop = mkHost { hostname = "desktop"; base = nixpkgs-unstable; };
+        # 26.05.12400.da6dc0e7 - the laptop's current system.
+        laptop = mkHost { hostname = "laptop"; base = nixpkgs; };
       };
     };
 }

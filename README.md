@@ -20,17 +20,18 @@ scripts/set-wallpaper.sh      # applies the wallpaper in KDE Plasma
 ## Pinning
 
 `flake.nix` pins two exact revisions, chosen because they are already in both
-machines' stores:
+machines' stores, and each host uses the one it already runs as its base:
 
-| input | revision | matches |
-|---|---|---|
-| `nixpkgs` | `da6dc0e7` | `26.05.12400` — the laptop's system |
-| `nixpkgs-unstable` | `0bb2eedc` | `26.11pre1106360` — the desktop's system |
+| host | base input | revision | matches its running system |
+|---|---|---|---|
+| `desktop` | `nixpkgs-unstable` | `0bb2eedc` | `26.11pre1106360` |
+| `laptop` | `nixpkgs` | `da6dc0e7` | `26.05.12400` |
 
 That keeps `nixos-rebuild` cheap: nothing is re-downloaded, only the delta
 between the two configs moves. Bump deliberately with `nix flake update`, then
 rebuild both machines in one go. Pinning to a *newer* rev costs a full ~15 GB
-closure download on both sides.
+closure download on both sides. Switching a host's base input is a full system
+version change — do it intentionally.
 
 ## Rebuild
 
